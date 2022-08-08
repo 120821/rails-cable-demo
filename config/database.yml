@@ -1,0 +1,17 @@
+default: &default
+  adapter: postgresql
+  encoding: utf8
+  pool: 5
+  username: admin
+  user: admin
+  password: 88888888
+
+development:
+  <<: *default
+  database: cable
+test:
+  <<: *default
+  database: cable_test
+production:
+  <<: *default
+  database: cable

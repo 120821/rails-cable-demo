@@ -1,0 +1,20 @@
+<%= form_for @artical do |form| %>
+  <table class='table table-striped table-hover table-bordered'>
+    <tr>
+      <th style="width: 150px;">
+        标题
+      </th>
+      <td>
+        <%= form.text_field :titile ,class: "form-control" %> </td>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        内容
+      </th>
+      <td>
+        <%= form.text_area :content ,class: "form-control" %>
+    </tr>
+  </table>
+  <%= form.submit "确定", class: 'btn btn-primary' %>
+<% end %>

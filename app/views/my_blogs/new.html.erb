@@ -1,0 +1,15 @@
+<h3>新建页面</h3>
+
+<%= render 'form' %>
+<br/>
+
+<%= link_to '返回', my_blogs_path %>
+<%= form_tag '/my_blogs', method: :post do %>
+  <label class="control-label">
+    标题
+    <i data-toggle="popover" data-togger="hover" data-container='body' data-html='true' title='说明：根据标题内关键词模糊查询' data-content='输入xxxxx' %>
+    <%= text_field_tag :title, params[:title] %>
+  </label>
+    数量: <%= text_field_tag :mount, params[:mount], value: 1 %>
+  <%= submit_tag '新建', class: "form_submit", class: 'btn btn-secondary btn-sm fa-input' %>
+<% end %>

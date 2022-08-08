@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Blogs</title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://apps.bdimg.com/libs/fontawesome/4.2.0/css/font-awesome.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="//cdn.ckeditor.com/4.18.0/standard/ckeditor.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@2.9.1/dist/Chart.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.1/dist/Chart.min.js"></script>
+  </head>
+  <body>
+    <div class="nav">
+      <%= image_tag('fairy.jpeg', style: 'width: 40px; height: 40px') %>
+      <span class="title">我的博客系统</span>
+      <!-- 使用 span 把左右两侧的元素给撑开 -->
+      <span class="spacer">
+        <a href="/blogs">主页</a>
+      </span>
+      <a href="/blogs" style="margin: auto;">登录</a>
+      <a href="logins/new">注销</a>
+    </div>
+    <!-- 版心 -->
+    <div class="container">
+      <!-- 左侧区域，显示用户信息 -->
+      <div class="container-left">
+        <!-- 用户详情 -->
+        <div class="card">
+          <!-- 用户的头像 -->
+          <%= image_tag('fairy.jpeg', style: 'width: 140px; height: 140px') %>
+          <!-- 用户名 -->
+          <h3></h3>
+          <!-- 其它信息 -->
+          <a href="https://blog.csdn.net/m0_67038390?type=blog" target='_blank' style="color: grey">CSDN 地址</a>
+          <a href="https://github.com/120821" target='_blank' style="color: grey">GitHub 地址</a>
+          <!-- 文章分类 -->
+          <div class="counter">
+            <span>文章</span>
+            <span>分类</span>
+          </div>
+          <div class="counter">
+            <span><%= @total_count %></span>
+            <span>todo</span>
+          </div>
+        </div>
+      </div>
+      <!-- 右侧区域，显示博客列表 -->
+      <div class="container-right">
+        <!-- 每个 blog 代表一篇博客 -->
+        <div class="blog">
+          <%= yield %>
+        </div>
+      </div>
+  </body>
+</html>

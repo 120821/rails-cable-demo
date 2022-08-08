@@ -1,0 +1,46 @@
+<h3>琳琳的博客</h3>
+<p>博客总数: <%= @total_count %></p>
+<%= paginate @blogs %>
+<%= link_to "新建", new_blog_path if session[:current_user] == "admin" %><br/>
+<%= form_tag '', method: :get do %>
+  <label class="control-label">
+    标题
+    <i data-toggle="popover" data-togger="hover" data-container='body' data-html='true' title='说明：根据标题内关键词模糊查询' data-content='输入xxxxx' class='fa fa-question-circle' > </i>
+    <%= text_field_tag :blog_title, params[:blog_title] %>
+  </label>
+  <label class="control-label">
+    内容
+    <i data-toggle="popover" data-togger="hover" data-container='body' data-html='true' title='说明：根据文章内关键词模糊查询' data-content='输入xxxxx' class='fa fa-question-circle' > </i>
+    <%= text_field_tag :blog_content, params[:blog_content] %>
+  </label>
+  <%= submit_tag raw("&#xf002; 查询"), class: "form_submit", class: 'btn btn-secondary btn-sm fa-input' %>
+<% end %>
+
+<% @blogs.each do |blog| %>
+  <!--
+    <a href="/blogs/<%= blog.id %>" > <%= blog.title %> </a>
+  -->
+  <%#= blog.id %>
+  <%#=blog.title %>
+  <div class="title">
+    <%=blog.title %>
+  </div>
+  <div class="date">
+    <%= blog.created_at.to_s(:db) %>
+  </div>
+  <div class="desc">
+    <%= raw(blog.content) %>
+  </div>
+  <div>
+    <a href="/blogs/<%= blog.id %>" class="detail">查看全文&gt;&gt;
+    </a>
+    <% if session[:current_user] == "admin" %>
+      <%= link_to raw("编辑&gt;&gt;"), (edit_blog_path(:id => blog.id) if session[:current_user] == "admin"), class: 'detail1' %>
+      <%= link_to "删除",blog,:method => :delete if session[:current_user] == "admin"%>
+    <% end %>
+  </div>
+<% end %>
+
+<%= paginate @blogs %>
+<br/>
+<%= link_to '返回', blogs_path %>

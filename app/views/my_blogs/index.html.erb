@@ -1,0 +1,95 @@
+<h3>琳琳的博客</h3>
+<p>博客总数<%= @total_count %></p>
+<%= paginate @my_blogs %>
+<%= link_to "新建", new_my_blog_path %><br/>
+
+<%= form_tag '', method: :get do %>
+  标题: <%= text_field_tag :my_blog_title, params[:my_blog_title] %>
+  内容: <%= text_field_tag :my_blog_content, params[:my_blog_content] %>
+  <%= submit_tag "查询", class: "form_submit", class: 'btn btn-secondary btn-sm'  %>
+<% end %>
+
+<button class="btn btn-primary" data-toggle="modal" data-target="#modify",="">博客上传</button>
+<!-- csv批量冻结 -->
+<div class="modal fade" id="modify" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" style="display: none">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="gridSystemModalLabel" style="float: left;">博客上传与下载</h4>
+        <span style="margin-left: 50px; line-height: 200%; height: 200%">
+          点击下载：<a href="https://showmethemoney.yijiayinshi.com/image_after_2019_06/3388/股票余额互转示例.csv">博客上传csv示例</a>
+        </span>
+      </div>
+      <form enctype="multipart/form-data" action="/transfer_of_funds/exchange_amount_transfer" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="FL9LcUzpt+KjaA89vXrn2DLdQi6kDwsYGlu2P7qoFy0kDP3NHtbB0WDVEBeGQMXMzenuF9La5+SKQcHlh/bG+g==" />
+        <div class="modal-body">
+          <input type="hidden" class="hidden-id" name="id">
+          <table>
+            <tr>
+              <td style="width: 100px">
+                <span class="translation_missing" title="translation missing: zh.选择csv文件">选择csv文件</span>：
+              </td>
+              <td class="icon-width">
+                <p class="image-icon">
+                <input type="file" name="file" id="file" accept=".csv" class="form-control" />
+              </td>
+              <td></td>
+            </tr>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary button-sub">确认</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<table class="table table-striped table-bordered">
+    <tr>
+      <th style="width: 150px;">ID</th>
+      <th>标题</th>
+      <th>内容</th>
+      <th>时间</th>
+      <th style="width: 150px;">操作</th>
+    </tr>
+  <% @my_blogs.each do |my_blog| %>
+    <tr>
+      <td>
+        <%= my_blog.id %>
+      </td>
+      <td>
+        <%= my_blog.title %>
+      </td>
+      <td>
+        <%= my_blog.content %>
+      </td>
+      <td>
+        <%= my_blog.created_at %>
+      </td>
+      <td>
+        <%= link_to "编辑", edit_my_blog_path(:id => my_blog.id) %>
+        <%= link_to "删除",my_blog,:method => :delete, class: 'btn btn-danger btn-sm' %>
+      </td>
+    </tr>
+<% end %>
+</table>
+
+<%= link_to '返回', my_blogs_path %>
+<br>
+<%= link_to '新建', new_my_blog_path %>
+<script>
+  function(e) {
+    var $this = $(this),
+      href = $this.attr("href"),
+      target = $this.attr("data-target") || href && href.replace(/.*(?=#[^\s]+$)/, ""),
+      $target = $(document).find(target),
+      option = $target.data("bs.modal") ? "toggle" : $.extend({
+        remote: !/#/.test(href) && href
+      }, $target.data(), $this.data());
+    $this.is("a") && e.preventDefault(), $target.one("show.bs.modal", function(showEvent) {
+      showEvent.isDefaultPrevented() || $target.one("hidden.bs.modal", function() {
+        $this.is(":visible") && $this.trigger("focus")
+      })
+    }), Plugin.call($target, option, this)
+  }
+</script>

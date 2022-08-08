@@ -1,0 +1,51 @@
+WYMeditor.editor.prototype.intercept_paste = function(e) {
+  console.info("===  hihihi, in intercept_paste")
+  var pasteEvent = e.originalEvent
+  var item = pasteEvent.clipboardData.items[0];
+  var wym = window.wym
+  // 仅仅处理粘贴图片,
+  if (item.type.indexOf("image") === 0) {
+    var blob = item.getAsFile();
+    var reader = new FileReader();
+    reader.onload = function(event) {
+      image_content = event.target.result
+      // 发现是图片的话，把它上传到CDN上。
+      jQuery.post('/interface/blogs/upload_paste_image_to_cdn', {image_content: image_content}, function( data ) {
+        if(window.wym){
+          window.wym.paste("<img src='" + data.url + "'/>", false)
+          var wym2 = WYMeditor.INSTANCES[0];   // 这句代码只是用于演示。如何获得 wym实例。
+          console.info("==== wym get by title:", wym2)
+        }else{
+          alert("window.wym is undefined, refresh and try again")
+        }
+      });
+
+    };
+    reader.readAsDataURL(blob);
+  }else{
+    var wym = WYMeditor.INSTANCES[this.title];
+    wym.format_block();
+    wym.exec(WYMeditor.PASTE);
+  }
+}
+// 这里的方法入口，需要有第二个参数： is_escape.
+// 用来把 CDN上的图片名称（我们刚刚上传上去的）合并到正文中。
+WYMeditor.editor.prototype.paste = function(sData, is_escape = true) {
+  wym = this;
+  wym.format_block();
+  var sTmp;
+  replaceable = $(wym._doc.body).find('#' + wym._current_unique_stamp);
+  // replaceable doesn't actually get replaced here, it's just used as a marker for where the cursor was.
+  container = replaceable.get(0) || this.selected();
+  //split the data, using double newlines as the separator
+  var aP = sData
+  if(is_escape){
+    console.info("=== is escape")
+    aP = sData.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").split(wym._newLine + wym._newLine);
+  }else{
+    console.info("=== NOT escape")
+    // 增加这一句。 非常关键。
+    aP = [aP]
+  }
+  var rExp = new RegExp(wym._newLine, "g");
+}

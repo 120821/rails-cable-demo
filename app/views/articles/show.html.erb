@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<table>
+<tr>
+  <th style="width:150px;">
+    标题
+  </th>
+  <td>
+    <%= @artical.titile %>
+  </td>
+  <td>
+  </td>
+</tr>
+<tr>
+  <th>
+    内容
+  </th>
+  <td>
+    <%= @artical.content %>
+  </td>
+  <td>
+  </td>
+</tr>
+</table>
+
+<br/>
+<%= link_to '编辑', edit_artical_path(@artical) %> |
+<%= link_to '返回', articals_path %>
